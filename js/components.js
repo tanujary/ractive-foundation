@@ -101,10 +101,6 @@ RactiveF.components['ux-anchor'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-col'] = Ractive.extend({
-	template: RactiveF.templates['ux-col']
-});
-
 RactiveF.components['ux-button'] = Ractive.extend({
 	template: RactiveF.templates['ux-button'],
 	clickHandler: function () {
@@ -121,6 +117,10 @@ RactiveF.components['ux-button'] = Ractive.extend({
 		// prevent bubbling
 		return true;
 	}
+});
+
+RactiveF.components['ux-col'] = Ractive.extend({
+	template: RactiveF.templates['ux-col']
 });
 
 RactiveF.components['ux-content'] = Ractive.extend({
