@@ -249,7 +249,7 @@ RactiveF.components['ux-off-canvas'] = Ractive.extend({
 	oninit: function () {
 
 		// You can expand from left or right, or none. Can't do both at the same time.
-		this.on('toggleMenu', function (event, direction) {
+		this.on('updateMenu', function (event, direction) {
 			this.set('expandedState', direction);
 		});
 
