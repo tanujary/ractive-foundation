@@ -234,15 +234,13 @@ RactiveF.components['ux-off-canvas'] = Ractive.extend({
 		 */
 		getExpandedClass: function () {
 
-			switch (this.get('expandedState')) {
-				case 'left':
-					return 'move-right';
-				case 'right':
-					return 'move-left';
-			}
-
 			// Default is empty string for no css class.
-			return '';
+			var classMap = {
+				'left': 'move-right',
+				'right': 'move-left'
+			};
+
+			return classMap[this.get('expandedState')] || '';
 
 		}
 
