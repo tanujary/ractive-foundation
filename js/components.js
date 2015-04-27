@@ -287,6 +287,36 @@ RactiveF.components['ux-sidenav'] = Ractive.extend({
 	template: RactiveF.templates['ux-sidenav']
 });
 
+RactiveF.components['ux-tablinks'] = Ractive.extend({
+	template: RactiveF.templates['ux-tablinks'],
+	oninit: function () {
+
+		// If there is a hash. We want to check deeplinking.
+		if (window.location.hash.length) {
+			var hash = window.location.hash.substr(1);
+			var components = this.findAllChildComponents('ux-tablink');
+			_.each(components, function (component) {
+				var isActive = component.get('id') === hash;
+				component.set('active', isActive);
+				component.get('tabPane').set('active', isActive);
+			});
+
+		}
+
+		this.on('*.changeTab', function (event) {
+			var components = this.findAllChildComponents('ux-tablink');
+
+			_.each(components, function (component) {
+					var isActive = component._guid === event.context.uid;
+					component.set('active', isActive);
+					component.get('tabPane').set('active', isActive);
+			});
+
+			return false;
+		});
+	}
+});
+
 RactiveF.components['ux-tabarea'] = Ractive.extend({
 
 	template: RactiveF.templates['ux-tabarea'],
@@ -339,34 +369,8 @@ RactiveF.components['ux-tablink'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-tablinks'] = Ractive.extend({
-	template: RactiveF.templates['ux-tablinks'],
-	oninit: function () {
-
-		// If there is a hash. We want to check deeplinking.
-		if (window.location.hash.length) {
-			var hash = window.location.hash.substr(1);
-			var components = this.findAllChildComponents('ux-tablink');
-			_.each(components, function (component) {
-				var isActive = component.get('id') === hash;
-				component.set('active', isActive);
-				component.get('tabPane').set('active', isActive);
-			});
-
-		}
-
-		this.on('*.changeTab', function (event) {
-			var components = this.findAllChildComponents('ux-tablink');
-
-			_.each(components, function (component) {
-					var isActive = component._guid === event.context.uid;
-					component.set('active', isActive);
-					component.get('tabPane').set('active', isActive);
-			});
-
-			return false;
-		});
-	}
+RactiveF.components['ux-tabpanes'] = Ractive.extend({
+	template: RactiveF.templates['ux-tabpanes']
 });
 
 RactiveF.components['ux-tabpane'] = Ractive.extend({
@@ -383,8 +387,4 @@ RactiveF.components['ux-tabpane'] = Ractive.extend({
 		}
 	}
 
-});
-
-RactiveF.components['ux-tabpanes'] = Ractive.extend({
-	template: RactiveF.templates['ux-tabpanes']
 });
