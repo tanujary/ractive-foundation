@@ -287,36 +287,6 @@ RactiveF.components['ux-sidenav'] = Ractive.extend({
 	template: RactiveF.templates['ux-sidenav']
 });
 
-RactiveF.components['ux-tablinks'] = Ractive.extend({
-	template: RactiveF.templates['ux-tablinks'],
-	oninit: function () {
-
-		// If there is a hash. We want to check deeplinking.
-		if (window.location.hash.length) {
-			var hash = window.location.hash.substr(1);
-			var components = this.findAllChildComponents('ux-tablink');
-			_.each(components, function (component) {
-				var isActive = component.get('id') === hash;
-				component.set('active', isActive);
-				component.get('tabPane').set('active', isActive);
-			});
-
-		}
-
-		this.on('*.changeTab', function (event) {
-			var components = this.findAllChildComponents('ux-tablink');
-
-			_.each(components, function (component) {
-					var isActive = component._guid === event.context.uid;
-					component.set('active', isActive);
-					component.get('tabPane').set('active', isActive);
-			});
-
-			return false;
-		});
-	}
-});
-
 RactiveF.components['ux-tabarea'] = Ractive.extend({
 
 	template: RactiveF.templates['ux-tabarea'],
@@ -369,8 +339,34 @@ RactiveF.components['ux-tablink'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-tabpanes'] = Ractive.extend({
-	template: RactiveF.templates['ux-tabpanes']
+RactiveF.components['ux-tablinks'] = Ractive.extend({
+	template: RactiveF.templates['ux-tablinks'],
+	oninit: function () {
+
+		// If there is a hash. We want to check deeplinking.
+		if (window.location.hash.length) {
+			var hash = window.location.hash.substr(1);
+			var components = this.findAllChildComponents('ux-tablink');
+			_.each(components, function (component) {
+				var isActive = component.get('id') === hash;
+				component.set('active', isActive);
+				component.get('tabPane').set('active', isActive);
+			});
+
+		}
+
+		this.on('*.changeTab', function (event) {
+			var components = this.findAllChildComponents('ux-tablink');
+
+			_.each(components, function (component) {
+					var isActive = component._guid === event.context.uid;
+					component.set('active', isActive);
+					component.get('tabPane').set('active', isActive);
+			});
+
+			return false;
+		});
+	}
 });
 
 RactiveF.components['ux-tabpane'] = Ractive.extend({
@@ -387,4 +383,67 @@ RactiveF.components['ux-tabpane'] = Ractive.extend({
 		}
 	}
 
+});
+
+RactiveF.components['ux-tabpanes'] = Ractive.extend({
+	template: RactiveF.templates['ux-tabpanes']
+});
+
+RactiveF.components['ux-top-bar'] = Ractive.extend({
+
+	template: RactiveF.templates['ux-top-bar'],
+
+	oninit: function () {
+
+		var self = this;
+
+		self.set('yPos', 0);
+
+		this.on('toggleMenu', function(e) {
+
+			if (self.get('isExpanded')) {
+				self.set('isExpanded', false);
+			} else {
+				self.set('isExpanded', true);
+			}
+
+			return false;
+
+		});
+
+	},
+
+	oncomplete: function () {
+
+		var self = this;
+		var topbar = self.find('.top-bar');
+		var topbarPos = self.getYPos(topbar);
+
+		window.onscroll = function (e) {
+			if (self.get('isSticky')) {
+				self.set('isFixed', window.pageYOffset >= topbarPos);
+			}
+		};
+
+	}
+
+});
+
+RactiveF.components['ux-top-bar-items'] = Ractive.extend({
+	template: RactiveF.templates['ux-top-bar-items'],
+	data: {
+		getTopBarItemCssClass: function (item) {
+			var classes = [];
+			if (item.active) {
+				classes.push('active');
+			}
+			if (item.hasForm) {
+				classes.push('has-form');
+			}
+			if (item.items && item.items.length > 0) {
+				classes.push('has-dropdown');
+			}
+			return classes.join(' ');
+		}
+	}
 });
