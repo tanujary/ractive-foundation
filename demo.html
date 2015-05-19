@@ -18,7 +18,7 @@
 <div class="ractivef hide">
 
 	<!-- See ux-off-canvas/use-cases/dataDriven.json for data model. -->
-	<ux-off-canvas datamodel="{&quot;title&quot;:&quot;Ractive-Foundation v0.0.12&quot;,&quot;expandedState&quot;:&quot;&quot;,&quot;leftItems&quot;:[{&quot;label&quot;:&quot;Learn More&quot;},{&quot;label&quot;:&quot;Home&quot;,&quot;href&quot;:&quot;.&quot;},{&quot;label&quot;:&quot;Components&quot;,&quot;href&quot;:&quot;components.html&quot;},{&quot;label&quot;:&quot;Data&quot;,&quot;href&quot;:&quot;data.html&quot;},{&quot;label&quot;:&quot;Demo&quot;,&quot;href&quot;:&quot;demo.html&quot;},{&quot;label&quot;:&quot;External Links&quot;},{&quot;label&quot;:&quot;Foundation docs&quot;,&quot;href&quot;:&quot;http://foundation.zurb.com/docs/&quot;},{&quot;label&quot;:&quot;RactiveJS docs&quot;,&quot;href&quot;:&quot;http://docs.ractivejs.org/latest/get-started&quot;,&quot;target&quot;:&quot;_blank&quot;}]}">
+	<ux-off-canvas datamodel="{&quot;title&quot;:&quot;Ractive-Foundation v0.0.13&quot;,&quot;expandedState&quot;:&quot;&quot;,&quot;leftItems&quot;:[{&quot;label&quot;:&quot;Learn More&quot;},{&quot;label&quot;:&quot;Home&quot;,&quot;href&quot;:&quot;.&quot;},{&quot;label&quot;:&quot;Components&quot;,&quot;href&quot;:&quot;components.html&quot;},{&quot;label&quot;:&quot;Data&quot;,&quot;href&quot;:&quot;data.html&quot;},{&quot;label&quot;:&quot;Demo&quot;,&quot;href&quot;:&quot;demo.html&quot;},{&quot;label&quot;:&quot;External Links&quot;},{&quot;label&quot;:&quot;Foundation docs&quot;,&quot;href&quot;:&quot;http://foundation.zurb.com/docs/&quot;},{&quot;label&quot;:&quot;RactiveJS docs&quot;,&quot;href&quot;:&quot;http://docs.ractivejs.org/latest/get-started&quot;,&quot;target&quot;:&quot;_blank&quot;}]}">
 
 		<!-- Page content start -->
 <ux-row>
@@ -38,7 +38,8 @@
 		<ux-tabarea>
 
 			<ux-tablinks>
-				<ux-tablink id="structure" active="true">Structure</ux-tablink>
+				<ux-tablink id="structure">Structure</ux-tablink>
+				<ux-tablink id="navigation" active="true">Navigation</ux-tablink>
 				<ux-tablink id="buttons">Buttons</ux-tablink>
 				<ux-tablink id="buttons">Typography</ux-tablink>
 				<ux-tablink id="content">Content</ux-tablink>
@@ -54,6 +55,28 @@
 						<ux-col class="large-3"> second column </ux-col>
 						<ux-col class="large-3"> third column </ux-col>
 					</ux-row>
+
+				</ux-tabpane>
+
+				<!-- navigation -->
+				<ux-tabpane>
+
+					<ux-top-bar href="." class="contain-to-grid" title="Test Title" menuLabel="Menuz">
+						<ux-top-bar-items class="right">
+							<li active="true"><a href="#rb1">Right Button1 Active</a></li>
+							<li class="has-dropdown">
+								<a href="#rb2">Right nested</a>
+								<ul class="dropdown">
+									<li><a href="#nest1">Nested 1</a></li>
+									<li><a href="#nest2">Nested 2</a></li>
+									<li><a href="#nest3">Nested 3</a></li>
+								</ul>
+							</li>
+						</ux-top-bar-items>
+						<ux-top-bar-items class="left">
+							<li><a href="#lb1">Left Button1</a></li>
+						</ux-top-bar-items>
+					</ux-top-bar>
 
 				</ux-tabpane>
 
