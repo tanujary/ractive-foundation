@@ -397,14 +397,12 @@ RactiveF.components['ux-top-bar'] = Ractive.extend({
 
 		var self = this;
 
-		self.set('yPos', 0);
-
 		this.on('toggleMenu', function(e) {
 
-			if (self.get('isExpanded')) {
-				self.set('isExpanded', false);
+			if (self.get('isexpanded')) {
+				self.set('isexpanded', false);
 			} else {
-				self.set('isExpanded', true);
+				self.set('isexpanded', true);
 			}
 
 			return false;
@@ -420,8 +418,8 @@ RactiveF.components['ux-top-bar'] = Ractive.extend({
 		var topbarOffset = RactiveF.elementOffset(topbar);
 
 		window.onscroll = function (e) {
-			if (self.get('isSticky')) {
-				self.set('isFixed', RactiveF.pageYOffset() >= topbarOffset.top);
+			if (self.get('issticky')) {
+				self.set('isfixed', RactiveF.pageYOffset() > topbarOffset.top);
 			}
 		};
 
@@ -441,7 +439,8 @@ RactiveF.components['ux-top-bar-items'] = Ractive.extend({
 				classes.push('has-form');
 			}
 			if (item.items && item.items.length > 0) {
-				classes.push('has-dropdown');
+				// Note: not-click needed for focus/hover with html class=js. Silly.
+				classes.push('has-dropdown not-click');
 			}
 			return classes.join(' ');
 		}
