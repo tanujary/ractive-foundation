@@ -3,8 +3,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<!-- If you delete this meta tag World War Z will become a reality -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+
 	<title>Ractive.js &amp; Foundation 5 : Documentation</title>
 
 	<script src="js/modernizr.js"></script>
@@ -20,7 +21,7 @@
 <div class="ractivef hide">
 
 	<!-- See ux-off-canvas/use-cases/dataDriven.json for data model. -->
-	<ux-off-canvas datamodel="{&quot;title&quot;:&quot;Ractive-Foundation v0.0.14&quot;,&quot;expandedState&quot;:&quot;&quot;,&quot;leftItems&quot;:[{&quot;label&quot;:&quot;Learn More&quot;},{&quot;label&quot;:&quot;Home&quot;,&quot;href&quot;:&quot;.&quot;},{&quot;label&quot;:&quot;Components&quot;,&quot;href&quot;:&quot;components.html&quot;},{&quot;label&quot;:&quot;Data&quot;,&quot;href&quot;:&quot;data.html&quot;},{&quot;label&quot;:&quot;Demo&quot;,&quot;href&quot;:&quot;demo.html&quot;},{&quot;label&quot;:&quot;External Links&quot;},{&quot;label&quot;:&quot;Foundation docs&quot;,&quot;href&quot;:&quot;http://foundation.zurb.com/docs/&quot;},{&quot;label&quot;:&quot;RactiveJS docs&quot;,&quot;href&quot;:&quot;http://docs.ractivejs.org/latest/get-started&quot;,&quot;target&quot;:&quot;_blank&quot;}]}">
+	<ux-off-canvas datamodel="{&quot;title&quot;:&quot;Ractive-Foundation v0.0.15&quot;,&quot;expandedState&quot;:&quot;&quot;,&quot;leftItems&quot;:[{&quot;label&quot;:&quot;Learn More&quot;},{&quot;label&quot;:&quot;Home&quot;,&quot;href&quot;:&quot;.&quot;},{&quot;label&quot;:&quot;Components&quot;,&quot;href&quot;:&quot;components.html&quot;},{&quot;label&quot;:&quot;Data&quot;,&quot;href&quot;:&quot;data.html&quot;},{&quot;label&quot;:&quot;Demo&quot;,&quot;href&quot;:&quot;demo.html&quot;},{&quot;label&quot;:&quot;External Links&quot;},{&quot;label&quot;:&quot;Foundation docs&quot;,&quot;href&quot;:&quot;http://foundation.zurb.com/docs/&quot;},{&quot;label&quot;:&quot;RactiveJS docs&quot;,&quot;href&quot;:&quot;http://docs.ractivejs.org/latest/get-started&quot;,&quot;target&quot;:&quot;_blank&quot;}]}">
 
 		<!-- Page content start --><ux-row>
 	<ux-col class="small-12">
@@ -32,6 +33,17 @@
 	</ux-col>
 </ux-row>
 
+<hr/>
+
+<ux-row>
+	<ux-col class="small-12">
+		<ux-header level="2">ux-orbit demo</ux-header>
+		<ux-orbit datamodel="{&quot;items&quot;:[{&quot;imagesrc&quot;:&quot;http://placekitten.com/g/200/300&quot;,&quot;link&quot;:&quot;.&quot;,&quot;imagealt&quot;:&quot;Slide 1&quot;,&quot;caption&quot;:&quot;Caption One&quot;,&quot;active&quot;:true},{&quot;imagesrc&quot;:&quot;http://placekitten.com/g/200/300&quot;,&quot;imagealt&quot;:&quot;Slide 2&quot;,&quot;link&quot;:&quot;.&quot;,&quot;caption&quot;:&quot;Caption Two&quot;,&quot;active&quot;:false}]}"></ux-orbit>
+	</ux-col>
+</ux-row>
+
+<hr/>
+
 <ux-row>
 	<ux-col class="small-12">
 		<ux-header level="2">ux-top-bar demo</ux-header>
@@ -40,6 +52,8 @@
 
 	</ux-col>
 </ux-row>
+
+<hr/>
 
 <ux-row><ux-col class="small-12"><ux-header level="2">datamodel ux-off-canvas demo</ux-header></ux-col></ux-row>
 <ux-row>
@@ -135,7 +149,9 @@
 
 <script src="js/lodash.min.js"></script>
 <script src="js/ractive.js"></script>
-<script src="js/ractive-events-tap.js"></script>
+<!-- ractive-touch plugin is powered by hammerjs -->
+<script src="js/hammer.min.js"></script>
+<script src="js/index.js"></script>
 <script src="js/ractivef.js"></script>
 
 </body>
