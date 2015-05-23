@@ -323,6 +323,15 @@ RactiveF.components['ux-pricingtable'] = Ractive.extend({
 	}
 });
 
+RactiveF.components['ux-progress'] = Ractive.extend({
+	template: RactiveF.templates['ux-progress'],
+	computed: {
+		meterStyle: function () {
+			return 'width: ' + (this.get('value') || '0') + '%';
+		}
+	}
+});
+
 RactiveF.components['ux-row'] = Ractive.extend({
 	template: RactiveF.templates['ux-row']
 });
