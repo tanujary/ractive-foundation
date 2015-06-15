@@ -1,4 +1,4 @@
-RactiveF.components['ux-accordion'] = Ractive.extend({
+RactiveF.components['ux-accordion'] = Component.extend({
 
 	template: RactiveF.templates['ux-accordion'],
 
@@ -40,7 +40,7 @@ RactiveF.components['ux-accordion'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-accordionitem'] = Ractive.extend({
+RactiveF.components['ux-accordionitem'] = Component.extend({
 
 	template: RactiveF.templates['ux-accordionitem'],
 
@@ -92,7 +92,7 @@ RactiveF.components['ux-accordionitem'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-anchor'] = Ractive.extend({
+RactiveF.components['ux-anchor'] = Component.extend({
 	template: RactiveF.templates['ux-anchor'],
 	computed: {
 		guid: function () {
@@ -101,7 +101,7 @@ RactiveF.components['ux-anchor'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-button'] = Ractive.extend({
+RactiveF.components['ux-button'] = Component.extend({
 	template: RactiveF.templates['ux-button'],
 	clickHandler: function () {
 
@@ -119,11 +119,11 @@ RactiveF.components['ux-button'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-col'] = Ractive.extend({
+RactiveF.components['ux-col'] = Component.extend({
 	template: RactiveF.templates['ux-col']
 });
 
-RactiveF.components['ux-content'] = Ractive.extend({
+RactiveF.components['ux-content'] = Component.extend({
 	template: RactiveF.templates['ux-content'],
 	computed: {
 		guid: function () {
@@ -132,11 +132,11 @@ RactiveF.components['ux-content'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-header'] = Ractive.extend({
+RactiveF.components['ux-header'] = Component.extend({
 	template: RactiveF.templates['ux-header']
 });
 
-RactiveF.components['ux-iconbar'] = Ractive.extend({
+RactiveF.components['ux-iconbar'] = Component.extend({
 
 	getUpNumClass: function (num) {
 
@@ -198,7 +198,7 @@ RactiveF.components['ux-iconbar'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-iconbaritem'] = Ractive.extend({
+RactiveF.components['ux-iconbaritem'] = Component.extend({
 
 	template: RactiveF.templates['ux-iconbaritem'],
 
@@ -210,11 +210,11 @@ RactiveF.components['ux-iconbaritem'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-li'] = Ractive.extend({
+RactiveF.components['ux-li'] = Component.extend({
 	template: RactiveF.templates['ux-li']
 });
 
-RactiveF.components['ux-off-canvas'] = Ractive.extend({
+RactiveF.components['ux-off-canvas'] = Component.extend({
 
 	template: RactiveF.templates['ux-off-canvas'],
 
@@ -257,11 +257,11 @@ RactiveF.components['ux-off-canvas'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-off-canvas-list'] = Ractive.extend({
+RactiveF.components['ux-off-canvas-list'] = Component.extend({
 	template: RactiveF.templates['ux-off-canvas-list']
 });
 
-RactiveF.components['ux-orbit'] = Ractive.extend({
+RactiveF.components['ux-orbit'] = Component.extend({
 
 	template: RactiveF.templates['ux-orbit'],
 
@@ -305,11 +305,11 @@ RactiveF.components['ux-orbit'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-panel'] = Ractive.extend({
+RactiveF.components['ux-panel'] = Component.extend({
 	template: RactiveF.templates['ux-panel']
 });
 
-RactiveF.components['ux-pricingtable'] = Ractive.extend({
+RactiveF.components['ux-pricingtable'] = Component.extend({
 	template: RactiveF.templates['ux-pricingtable'],
 	oninit: function () {
 
@@ -327,7 +327,7 @@ RactiveF.components['ux-pricingtable'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-progress'] = Ractive.extend({
+RactiveF.components['ux-progress'] = Component.extend({
 	template: RactiveF.templates['ux-progress'],
 	computed: {
 		meterStyle: function () {
@@ -336,15 +336,15 @@ RactiveF.components['ux-progress'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-row'] = Ractive.extend({
+RactiveF.components['ux-row'] = Component.extend({
 	template: RactiveF.templates['ux-row']
 });
 
-RactiveF.components['ux-sidenav'] = Ractive.extend({
+RactiveF.components['ux-sidenav'] = Component.extend({
 	template: RactiveF.templates['ux-sidenav']
 });
 
-RactiveF.components['ux-tabarea'] = Ractive.extend({
+RactiveF.components['ux-tabarea'] = Component.extend({
 
 	template: RactiveF.templates['ux-tabarea'],
 
@@ -382,7 +382,7 @@ RactiveF.components['ux-tabarea'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-tablink'] = Ractive.extend({
+RactiveF.components['ux-tablink'] = Component.extend({
 	template: RactiveF.templates['ux-tablink'],
 	components: RactiveF.components,
 	isolated: true,
@@ -396,7 +396,7 @@ RactiveF.components['ux-tablink'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-tablinks'] = Ractive.extend({
+RactiveF.components['ux-tablinks'] = Component.extend({
 	template: RactiveF.templates['ux-tablinks'],
 	oninit: function () {
 
@@ -426,7 +426,7 @@ RactiveF.components['ux-tablinks'] = Ractive.extend({
 	}
 });
 
-RactiveF.components['ux-tabpane'] = Ractive.extend({
+RactiveF.components['ux-tabpane'] = Component.extend({
 
 	template: RactiveF.templates['ux-tabpane'],
 
@@ -442,11 +442,11 @@ RactiveF.components['ux-tabpane'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-tabpanes'] = Ractive.extend({
+RactiveF.components['ux-tabpanes'] = Component.extend({
 	template: RactiveF.templates['ux-tabpanes']
 });
 
-RactiveF.components['ux-top-bar'] = Ractive.extend({
+RactiveF.components['ux-top-bar'] = Component.extend({
 
 	template: RactiveF.templates['ux-top-bar'],
 
@@ -484,7 +484,7 @@ RactiveF.components['ux-top-bar'] = Ractive.extend({
 
 });
 
-RactiveF.components['ux-top-bar-items'] = Ractive.extend({
+RactiveF.components['ux-top-bar-items'] = Component.extend({
 	template: RactiveF.templates['ux-top-bar-items'],
 	data: {
 		getTopBarItemCssClass: function (item) {
