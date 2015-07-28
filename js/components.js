@@ -486,11 +486,11 @@ Ractive.components['ux-top-bar'] = Ractive.extend({
 
 		var self = this;
 		var topbar = self.find('.top-bar');
-		var topbarOffset = RactiveF.elementOffset(topbar);
+		var topbarOffset = self.elementOffset(topbar);
 
 		window.addEventListener('scroll', function (e) {
 			if (self.get('issticky')) {
-				self.set('isfixed', RactiveF.pageYOffset() > topbarOffset.top);
+				self.set('isfixed', self.pageYOffset() > topbarOffset.top);
 			}
 		});
 

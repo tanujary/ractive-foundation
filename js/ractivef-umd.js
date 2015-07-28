@@ -1,6 +1,6 @@
 /**
  * ractive-foundation - Ractive components for Foundation 5
- * @version 0.0.26
+ * @version 0.0.27
  * @link https://github.com/ractive-foundation/ractive-foundation
  * @license MIT
  */
@@ -56,6 +56,45 @@ Ractive.defaults.onrender = function () {
 		}
 	});
 
+};
+
+/**
+ * Get the current coordinates of the given element, relative to the document.
+ *
+ * Useful for viewport checks etc
+ *
+ * Use Ractive's this.find(selector) to pass that element in.
+ *
+ * Helper function for cross-browser element offset.
+ * window.pageYOffset is not supported below IE 9.
+ */
+Ractive.defaults.elementOffset = function (elem) {
+
+	var box = elem.getBoundingClientRect();
+
+	var body = document.body;
+	var docEl = document.documentElement;
+	var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+	var clientTop = docEl.clientTop || body.clientTop || 0;
+
+	var top = box.top + (scrollTop - clientTop);
+	var pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+
+	return {
+		top: Math.round(top),
+		right: Math.round(box.right + pageXOffset),
+		bottom: Math.round(box.bottom + top),
+		left: Math.round(box.left + pageXOffset)
+	};
+
+};
+
+/**
+ * IE8 friendly function.
+ * TODO Make the return object the same as offset?
+ */
+Ractive.defaults.pageYOffset = function () {
+	return window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
 };
 
 Ractive.defaults.templates = {};
@@ -574,11 +613,11 @@ Ractive.components['ux-top-bar'] = Ractive.extend({
 
 		var self = this;
 		var topbar = self.find('.top-bar');
-		var topbarOffset = RactiveF.elementOffset(topbar);
+		var topbarOffset = self.elementOffset(topbar);
 
 		window.addEventListener('scroll', function (e) {
 			if (self.get('issticky')) {
-				self.set('isfixed', RactiveF.pageYOffset() > topbarOffset.top);
+				self.set('isfixed', self.pageYOffset() > topbarOffset.top);
 			}
 		});
 

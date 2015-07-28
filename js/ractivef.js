@@ -42,6 +42,45 @@ Ractive.defaults.onrender = function () {
 
 };
 
+/**
+ * Get the current coordinates of the given element, relative to the document.
+ *
+ * Useful for viewport checks etc
+ *
+ * Use Ractive's this.find(selector) to pass that element in.
+ *
+ * Helper function for cross-browser element offset.
+ * window.pageYOffset is not supported below IE 9.
+ */
+Ractive.defaults.elementOffset = function (elem) {
+
+	var box = elem.getBoundingClientRect();
+
+	var body = document.body;
+	var docEl = document.documentElement;
+	var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+	var clientTop = docEl.clientTop || body.clientTop || 0;
+
+	var top = box.top + (scrollTop - clientTop);
+	var pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+
+	return {
+		top: Math.round(top),
+		right: Math.round(box.right + pageXOffset),
+		bottom: Math.round(box.bottom + top),
+		left: Math.round(box.left + pageXOffset)
+	};
+
+};
+
+/**
+ * IE8 friendly function.
+ * TODO Make the return object the same as offset?
+ */
+Ractive.defaults.pageYOffset = function () {
+	return window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
+};
+
 Ractive.defaults.templates = {};
 
 Ractive.defaults.templates['ux-accordion'] = {"v":3,"t":[{"t":7,"e":"ul","a":{"id":[{"t":2,"r":"guid"}],"class":"accordion","data-accordion":0},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ux-accordionitem","a":{"datamodel":[{"t":2,"r":"."}]}}],"r":"items"}],"n":50,"r":"isDataModel"},{"t":4,"n":51,"f":[{"t":8,"r":"content"}],"r":"isDataModel"}]}]};
@@ -558,11 +597,11 @@ Ractive.components['ux-top-bar'] = Ractive.extend({
 
 		var self = this;
 		var topbar = self.find('.top-bar');
-		var topbarOffset = RactiveF.elementOffset(topbar);
+		var topbarOffset = self.elementOffset(topbar);
 
 		window.addEventListener('scroll', function (e) {
 			if (self.get('issticky')) {
-				self.set('isfixed', RactiveF.pageYOffset() > topbarOffset.top);
+				self.set('isfixed', self.pageYOffset() > topbarOffset.top);
 			}
 		});
 
@@ -637,46 +676,6 @@ RactiveF = {
 
 	},
 
-	/**
-	 * Get the current coordinates of the given element, relative to the document.
-	 *
-	 * Useful for viewport checks etc
-	 *
-	 * Use Ractive's this.find(selector) to pass that element in.
-	 *
-	 * Helper function for cross-browser element offset.
-	 * window.pageYOffset is not supported below IE 9.
-	 *
-	 * FIXME Where should this belong?
-	 */
-	elementOffset: function (elem) {
-
-		var box = elem.getBoundingClientRect();
-
-		var body = document.body;
-		var docEl = document.documentElement;
-		var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-		var clientTop = docEl.clientTop || body.clientTop || 0;
-
-		var top = box.top + (scrollTop - clientTop);
-		var pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
-
-		return {
-			top: Math.round(top),
-			right: Math.round(box.right + pageXOffset),
-			bottom: Math.round(box.bottom + top),
-			left: Math.round(box.left + pageXOffset)
-		};
-
-	},
-
-	/**
-	 * IE8 friendly function.
-	 * TODO Make the return object the same as offset?
-	 */
-	pageYOffset: function () {
-		return window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
-	}
 };
 
 /*global hljs*/
