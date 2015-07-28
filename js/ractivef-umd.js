@@ -1,14 +1,14 @@
 /**
  * ractive-foundation - Ractive components for Foundation 5
- * @version 0.0.25
+ * @version 0.0.26
  * @link https://github.com/ractive-foundation/ractive-foundation
  * @license MIT
  */
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['Ractive', 'lodash-compat'], factory);
+        define(['ractive', 'lodash-compat'], factory);
     } else if (typeof exports === 'object') {
-        factory(require('Ractive'), require('lodash-compat'));
+        factory(require('ractive'), require('lodash-compat'));
     } else {
         factory(root.Ractive, root._);
     }
@@ -80,7 +80,7 @@ Ractive.defaults.templates['ux-progress'] = {"v":3,"t":[{"t":7,"e":"div","a":{"c
 Ractive.defaults.templates['ux-row'] = {"v":3,"t":[{"t":7,"e":"div","a":{"class":["row ",{"t":2,"r":"class"}]},"f":[{"t":16}]}]};
 Ractive.defaults.templates['ux-sidenav'] = {"v":3,"t":[{"t":7,"e":"ul","a":{"class":"side-nav","role":"navigation"},"m":[{"t":4,"f":["title=\"",{"t":2,"r":"title"},"\""],"r":"title"}],"f":[{"t":4,"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ux-li","a":{"class":"heading"},"f":[{"t":2,"r":".label"}]}],"r":"isHeading"}," ",{"t":4,"f":[{"t":7,"e":"ux-li","a":{"class":"divider"}}],"r":"isDivider"}," ",{"t":4,"f":[{"t":7,"e":"ux-li","a":{"class":[{"t":4,"f":["active"],"r":"active"}],"role":"menuitem"},"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":".href"}]},"f":[{"t":2,"r":".label"}]}]}],"r":"href"}],"n":52,"r":"items"}],"n":50,"r":"isDataModel"},{"t":4,"n":51,"f":[{"t":16}],"r":"isDataModel"}]}]};
 Ractive.defaults.templates['ux-tabarea'] = {"v":3,"t":[{"t":7,"e":"div","a":{"class":"tabs-area"},"f":[{"t":4,"f":[{"t":7,"e":"ux-tablinks","f":[{"t":4,"f":[{"t":7,"e":"ux-tablink","a":{"id":[{"t":2,"r":".id"}],"active":[{"t":2,"r":".active"}]},"f":[{"t":2,"r":".title"}]}],"r":"items"}]}," ",{"t":7,"e":"ux-tabpanes","f":[{"t":4,"f":[{"t":7,"e":"ux-tabpane","a":{"datamodel":[{"t":2,"x":{"r":["tabPaneDataModel","."],"s":"_0(_1)"}}]}}],"r":"items"}]}],"n":50,"r":"isDataModel"},{"t":4,"n":51,"f":[{"t":8,"r":"content"}],"r":"isDataModel"}]}]};
-Ractive.defaults.templates['ux-tablink'] = {"v":3,"t":[{"t":7,"e":"li","a":{"class":["tab-title ",{"t":2,"r":"class"}," ",{"t":4,"f":["active"],"n":50,"r":"active"}],"role":"presentational"},"f":[{"t":7,"e":"a","a":{"href":"#"},"v":{"tap":"changeTab"},"f":[{"t":16}]}]}]};
+Ractive.defaults.templates['ux-tablink'] = {"v":3,"t":[{"t":7,"e":"li","a":{"class":["tab-title ",{"t":2,"r":".class"}," ",{"t":4,"f":["active"],"n":50,"r":".active"}],"role":"presentational"},"f":[{"t":7,"e":"a","a":{"href":["#",{"t":2,"r":".id"}]},"v":{"tap":"changeTab"},"f":[{"t":16}]}]}]};
 Ractive.defaults.templates['ux-tablinks'] = {"v":3,"t":[{"t":7,"e":"ul","a":{"class":["tabs ",{"t":4,"f":["vertical"],"r":"vertical"}],"role":"tablist"},"f":[{"t":8,"r":"content"}]}]};
 Ractive.defaults.templates['ux-tabpane'] = {"v":3,"t":[{"t":7,"e":"section","a":{"class":["content ",{"t":2,"r":"class"}," ",{"t":4,"f":["active"],"n":50,"r":"active"},{"t":4,"n":51,"f":["hide"],"r":"active"}],"role":"tabpanel","aria-hidden":[{"t":4,"f":["false"],"n":50,"r":"active"},{"t":4,"n":51,"f":["true"],"r":"active"}]},"f":[{"t":4,"f":[{"t":8,"r":"dynamicContent"}],"n":50,"r":"isDataModel"},{"t":4,"n":51,"f":[{"t":16}],"r":"isDataModel"}]}]};
 Ractive.defaults.templates['ux-tabpanes'] = {"v":3,"t":[{"t":7,"e":"div","a":{"class":"tabs-content"},"f":[{"t":8,"r":"content"}]}]};
@@ -492,15 +492,29 @@ Ractive.components['ux-tablinks'] = Ractive.extend({
 		if (window.location.hash.length) {
 			var hash = window.location.hash.substr(1);
 			var components = this.findAllChildComponents('ux-tablink');
-			_.each(components, function (component) {
-				var isActive = component.get('id') === hash;
-				component.set('active', isActive);
-				component.get('tabPane').set('active', isActive);
+
+			var hasMatchingHash = _.filter(components, function (component) {
+				return component.get('id') === hash;
 			});
+
+			if (hasMatchingHash.length) {
+				_.each(components, function (component) {
+					var isActive = component.get('id') === hash;
+					component.set('active', isActive);
+					component.get('tabPane').set('active', isActive);
+				});
+			}
 
 		}
 
 		this.on('*.changeTab', function (event) {
+
+			/**
+			 * This currently doesnt work.
+			 * @see https://github.com/ractive-foundation/ractive-foundation/issues/122
+			 */
+			event.original.preventDefault();
+
 			var components = this.findAllChildComponents('ux-tablink');
 
 			_.each(components, function (component) {
