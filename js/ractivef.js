@@ -54,6 +54,16 @@ Ractive.defaults.onrender = function () {
  */
 Ractive.defaults.elementOffset = function (elem) {
 
+	// Defensive code for isomorphic execution.
+	if (typeof document === 'undefined' || typeof window === 'undefined') {
+		return {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0
+		};
+	}
+
 	var box = elem.getBoundingClientRect();
 
 	var body = document.body;
@@ -78,6 +88,10 @@ Ractive.defaults.elementOffset = function (elem) {
  * TODO Make the return object the same as offset?
  */
 Ractive.defaults.pageYOffset = function () {
+	// Defensive code for isomorphic execution.
+	if (typeof document === 'undefined' || typeof window === 'undefined') {
+		return 0;
+	}
 	return window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
 };
 
@@ -511,23 +525,26 @@ Ractive.components['ux-tablinks'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-tablinks'],
 	oninit: function () {
 
-		// If there is a hash. We want to check deeplinking.
-		if (window.location.hash.length) {
-			var hash = window.location.hash.substr(1);
-			var components = this.findAllChildComponents('ux-tablink');
+		// Defensive code for isomorphic execution.
+		if (typeof window !== 'undefined') {
+			// If there is a hash. We want to check deeplinking.
+			if (window.location.hash.length) {
+				var hash = window.location.hash.substr(1);
+				var components = this.findAllChildComponents('ux-tablink');
 
-			var hasMatchingHash = _.filter(components, function (component) {
-				return component.get('id') === hash;
-			});
-
-			if (hasMatchingHash.length) {
-				_.each(components, function (component) {
-					var isActive = component.get('id') === hash;
-					component.set('active', isActive);
-					component.get('tabPane').set('active', isActive);
+				var hasMatchingHash = _.filter(components, function (component) {
+					return component.get('id') === hash;
 				});
-			}
 
+				if (hasMatchingHash.length) {
+					_.each(components, function (component) {
+						var isActive = component.get('id') === hash;
+						component.set('active', isActive);
+						component.get('tabPane').set('active', isActive);
+					});
+				}
+
+			}
 		}
 
 		this.on('*.changeTab', function (event) {
@@ -595,15 +612,20 @@ Ractive.components['ux-top-bar'] = Ractive.extend({
 
 	oncomplete: function () {
 
-		var self = this;
-		var topbar = self.find('.top-bar');
-		var topbarOffset = self.elementOffset(topbar);
+		// Defensive code for isomorphic execution.
+		if (typeof window !== 'undefined') {
 
-		window.addEventListener('scroll', function (e) {
-			if (self.get('issticky')) {
-				self.set('isfixed', self.pageYOffset() > topbarOffset.top);
-			}
-		});
+			var self = this;
+			var topbar = self.find('.top-bar');
+			var topbarOffset = self.elementOffset(topbar);
+
+			window.addEventListener('scroll', function (e) {
+				if (self.get('issticky')) {
+					self.set('isfixed', self.pageYOffset() > topbarOffset.top);
+				}
+			});
+
+		}
 
 	}
 
