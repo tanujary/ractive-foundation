@@ -1,6 +1,6 @@
 /*
-	Ractive.js v0.7.3
-	Sat Apr 25 2015 13:52:38 GMT-0400 (EDT) - commit da40f81c660ba2f09c45a09a9c20fdd34ee36d80
+	Ractive.js v0.7.2
+	Thu Apr 02 2015 13:53:56 GMT-0400 (EDT) - commit 8bae4689db1bb54ce0804697b66c658639a53e93
 
 	http://ractivejs.org
 	http://twitter.com/RactiveJS
@@ -415,8 +415,8 @@
 
   if (hasConsole) {
   	(function () {
-  		var welcomeIntro = ["%cRactive.js %c0.7.3 %cin debug mode, %cmore...", "color: rgb(114, 157, 52); font-weight: normal;", "color: rgb(85, 85, 85); font-weight: normal;", "color: rgb(85, 85, 85); font-weight: normal;", "color: rgb(82, 140, 224); font-weight: normal; text-decoration: underline;"];
-  		var welcomeMessage = "You're running Ractive 0.7.3 in debug mode - messages will be printed to the console to help you fix problems and optimise your application.\n\nTo disable debug mode, add this line at the start of your app:\n  Ractive.DEBUG = false;\n\nTo disable debug mode when your app is minified, add this snippet:\n  Ractive.DEBUG = /unminified/.test(function(){/*unminified*/});\n\nGet help and support:\n  http://docs.ractivejs.org\n  http://stackoverflow.com/questions/tagged/ractivejs\n  http://groups.google.com/forum/#!forum/ractive-js\n  http://twitter.com/ractivejs\n\nFound a bug? Raise an issue:\n  https://github.com/ractivejs/ractive/issues\n\n";
+  		var welcomeIntro = ["%cRactive.js %c0.7.2 %cin debug mode, %cmore...", "color: rgb(114, 157, 52); font-weight: normal;", "color: rgb(85, 85, 85); font-weight: normal;", "color: rgb(85, 85, 85); font-weight: normal;", "color: rgb(82, 140, 224); font-weight: normal; text-decoration: underline;"];
+  		var welcomeMessage = "You're running Ractive 0.7.2 in debug mode - messages will be printed to the console to help you fix problems and optimise your application.\n\nTo disable debug mode, add this line at the start of your app:\n  Ractive.DEBUG = false;\n\nTo disable debug mode when your app is minified, add this snippet:\n  Ractive.DEBUG = /unminified/.test(function(){/*unminified*/});\n\nGet help and support:\n  http://docs.ractivejs.org\n  http://stackoverflow.com/questions/tagged/ractivejs\n  http://groups.google.com/forum/#!forum/ractive-js\n  http://twitter.com/ractivejs\n\nFound a bug? Raise an issue:\n  https://github.com/ractivejs/ractive/issues\n\n";
 
   		welcome = function () {
   			var hasGroup = !!console.groupCollapsed;
@@ -3159,11 +3159,7 @@
       dirty = false;
 
   if (!isClient) {
-  	// TODO handle encapsulated CSS in server-rendered HTML!
-  	css = {
-  		add: noop,
-  		apply: noop
-  	};
+  	css = null;
   } else {
   	styleElement = document.createElement("style");
   	styleElement.type = "text/css";
@@ -5399,13 +5395,16 @@
   	return (item.t === SECTION || item.t === INVERTED) && item.f;
   }
 
-  var trimWhitespace = function (items, leadingPattern, trailingPattern) {
+  var trimWhitespace__leadingWhitespace = /^[ \t\f\r\n]+/,
+      trimWhitespace__trailingWhitespace = /[ \t\f\r\n]+$/;
+
+  var trimWhitespace = function (items, leading, trailing) {
   	var item;
 
-  	if (leadingPattern) {
+  	if (leading) {
   		item = items[0];
   		if (typeof item === "string") {
-  			item = item.replace(leadingPattern, "");
+  			item = item.replace(trimWhitespace__leadingWhitespace, "");
 
   			if (!item) {
   				items.shift();
@@ -5415,10 +5414,10 @@
   		}
   	}
 
-  	if (trailingPattern) {
+  	if (trailing) {
   		item = lastItem(items);
   		if (typeof item === "string") {
-  			item = item.replace(trailingPattern, "");
+  			item = item.replace(trimWhitespace__trailingWhitespace, "");
 
   			if (!item) {
   				items.pop();
@@ -5432,10 +5431,8 @@
   var utils_cleanup = cleanup;
   var contiguousWhitespace = /[ \t\f\r\n]+/g;
   var preserveWhitespaceElements = /^(?:pre|script|style|textarea)$/i;
-  var utils_cleanup__leadingWhitespace = /^[ \t\f\r\n]+/;
-  var trailingWhitespace = /[ \t\f\r\n]+$/;
-  var leadingNewLine = /^(?:\r\n|\r|\n)/;
-  var trailingNewLine = /(?:\r\n|\r|\n)$/;
+  var utils_cleanup__leadingWhitespace = /^\s+/;
+  var utils_cleanup__trailingWhitespace = /\s+$/;
   function cleanup(items, stripComments, preserveWhitespace, removeLeadingWhitespace, removeTrailingWhitespace) {
   	var i, item, previousItem, nextItem, preserveWhitespaceInsideFragment, removeLeadingWhitespaceInsideFragment, removeTrailingWhitespaceInsideFragment, key;
 
@@ -5458,7 +5455,7 @@
   	}
 
   	// If necessary, remove leading and trailing whitespace
-  	trimWhitespace(items, removeLeadingWhitespace ? utils_cleanup__leadingWhitespace : null, removeTrailingWhitespace ? trailingWhitespace : null);
+  	trimWhitespace(items, removeLeadingWhitespace, removeTrailingWhitespace);
 
   	i = items.length;
   	while (i--) {
@@ -5466,12 +5463,7 @@
 
   		// Recurse
   		if (item.f) {
-  			var isPreserveWhitespaceElement = item.t === ELEMENT && preserveWhitespaceElements.test(item.e);
-  			preserveWhitespaceInsideFragment = preserveWhitespace || isPreserveWhitespaceElement;
-
-  			if (!preserveWhitespace && isPreserveWhitespaceElement) {
-  				trimWhitespace(item.f, leadingNewLine, trailingNewLine);
-  			}
+  			preserveWhitespaceInsideFragment = preserveWhitespace || item.t === ELEMENT && preserveWhitespaceElements.test(item.e);
 
   			if (!preserveWhitespaceInsideFragment) {
   				previousItem = items[i - 1];
@@ -5479,7 +5471,7 @@
 
   				// if the previous item was a text item with trailing whitespace,
   				// remove leading whitespace inside the fragment
-  				if (!previousItem || typeof previousItem === "string" && trailingWhitespace.test(previousItem)) {
+  				if (!previousItem || typeof previousItem === "string" && utils_cleanup__trailingWhitespace.test(previousItem)) {
   					removeLeadingWhitespaceInsideFragment = true;
   				}
 
@@ -6558,8 +6550,12 @@
   var parseOptions = ["preserveWhitespace", "sanitize", "stripComments", "delimiters", "tripleDelimiters", "interpolate"];
 
   var parser = {
-  	fromId: fromId, isHashedId: isHashedId, isParsed: isParsed, getParseOptions: getParseOptions, createHelper: template_parser__createHelper,
-  	parse: doParse
+  	parse: doParse,
+  	fromId: fromId,
+  	isHashedId: isHashedId,
+  	isParsed: isParsed,
+  	getParseOptions: getParseOptions,
+  	createHelper: template_parser__createHelper
   };
 
   function template_parser__createHelper(parseOptions) {
@@ -6606,11 +6602,11 @@
   		throw new Error("Template element with id #" + id + ", must be a <script> element");
   	}
 
-  	return "textContent" in template ? template.textContent : template.innerHTML;
+  	return template.textContent;
   }
 
   function isHashedId(id) {
-  	return id && id[0] === "#";
+  	return id && id.charAt(0) === "#"; // TODO what about `id[0]`, does that work everywhere?
   }
 
   function isParsed(template) {
@@ -6736,11 +6732,6 @@
   		}
 
   		template = _parse(template, template_parser.getParseOptions(ractive));
-  	}
-
-  	// Check that the template even exists
-  	else if (template == undefined) {
-  		throw new Error("The template cannot be " + template + ".");
   	}
 
   	// Check the parsed template has a version at all
@@ -10119,93 +10110,31 @@
   	this._ractive.binding.handleChange();
   }
 
-  var GenericBinding;
-
-  GenericBinding = Binding_Binding.extend({
+  var ContentEditableBinding = Binding_Binding.extend({
   	getInitialValue: function () {
-  		return "";
-  	},
-
-  	getValue: function () {
-  		return this.element.node.value;
+  		return this.element.fragment ? this.element.fragment.toString() : "";
   	},
 
   	render: function () {
-  		var node = this.element.node,
-  		    lazy,
-  		    timeout = false;
-  		this.rendered = true;
-
-  		// any lazy setting for this element overrides the root
-  		// if the value is a number, it's a timeout
-  		lazy = this.root.lazy;
-  		if (this.element.lazy === true) {
-  			lazy = true;
-  		} else if (this.element.lazy === false) {
-  			lazy = false;
-  		} else if (is__isNumeric(this.element.lazy)) {
-  			lazy = false;
-  			timeout = +this.element.lazy;
-  		} else if (is__isNumeric(lazy || "")) {
-  			timeout = +lazy;
-  			lazy = false;
-
-  			// make sure the timeout is available to the handler
-  			this.element.lazy = timeout;
-  		}
-
-  		this.handler = timeout ? handleDelay : handleDomEvent;
+  		var node = this.element.node;
 
   		node.addEventListener("change", handleDomEvent, false);
 
-  		if (!lazy) {
-  			node.addEventListener("input", this.handler, false);
+  		if (!this.root.lazy) {
+  			node.addEventListener("input", handleDomEvent, false);
 
   			if (node.attachEvent) {
-  				node.addEventListener("keyup", this.handler, false);
+  				node.addEventListener("keyup", handleDomEvent, false);
   			}
   		}
-
-  		node.addEventListener("blur", handleBlur, false);
   	},
 
   	unrender: function () {
   		var node = this.element.node;
-  		this.rendered = false;
 
   		node.removeEventListener("change", handleDomEvent, false);
-  		node.removeEventListener("input", this.handler, false);
-  		node.removeEventListener("keyup", this.handler, false);
-  		node.removeEventListener("blur", handleBlur, false);
-  	}
-  });
-
-  var Binding_GenericBinding = GenericBinding;
-
-  function handleBlur() {
-  	var value;
-
-  	handleDomEvent.call(this);
-
-  	value = this._ractive.root.viewmodel.get(this._ractive.binding.keypath);
-  	this.value = value == undefined ? "" : value;
-  }
-
-  function handleDelay() {
-  	var binding = this._ractive.binding,
-  	    el = this;
-
-  	if (!!binding._timeout) clearTimeout(binding._timeout);
-
-  	binding._timeout = setTimeout(function () {
-  		if (binding.rendered) handleDomEvent.call(el);
-  		binding._timeout = undefined;
-  	}, binding.element.lazy);
-  }
-
-  var ContentEditableBinding = Binding_GenericBinding.extend({
-  	getInitialValue: function () {
-  		return this.element.fragment ? this.element.fragment.toString() : "";
+  		node.removeEventListener("input", handleDomEvent, false);
+  		node.removeEventListener("keyup", handleDomEvent, false);
   	},
 
   	getValue: function () {
@@ -10657,6 +10586,90 @@
   });
 
   var Binding_FileListBinding = FileListBinding;
+
+  var GenericBinding;
+
+  GenericBinding = Binding_Binding.extend({
+  	getInitialValue: function () {
+  		return "";
+  	},
+
+  	getValue: function () {
+  		return this.element.node.value;
+  	},
+
+  	render: function () {
+  		var node = this.element.node,
+  		    lazy,
+  		    timeout = false;
+  		this.rendered = true;
+
+  		// any lazy setting for this element overrides the root
+  		// if the value is a number, it's a timeout
+  		lazy = this.root.lazy;
+  		if (this.element.lazy === true) {
+  			lazy = true;
+  		} else if (this.element.lazy === false) {
+  			lazy = false;
+  		} else if (is__isNumeric(this.element.lazy)) {
+  			lazy = false;
+  			timeout = +this.element.lazy;
+  		} else if (is__isNumeric(lazy || "")) {
+  			timeout = +lazy;
+  			lazy = false;
+
+  			// make sure the timeout is available to the handler
+  			this.element.lazy = timeout;
+  		}
+
+  		this.handler = timeout ? handleDelay : handleDomEvent;
+
+  		node.addEventListener("change", handleDomEvent, false);
+
+  		if (!lazy) {
+  			node.addEventListener("input", this.handler, false);
+
+  			if (node.attachEvent) {
+  				node.addEventListener("keyup", this.handler, false);
+  			}
+  		}
+
+  		node.addEventListener("blur", handleBlur, false);
+  	},
+
+  	unrender: function () {
+  		var node = this.element.node;
+  		this.rendered = false;
+
+  		node.removeEventListener("change", handleDomEvent, false);
+  		node.removeEventListener("input", this.handler, false);
+  		node.removeEventListener("keyup", this.handler, false);
+  		node.removeEventListener("blur", handleBlur, false);
+  	}
+  });
+
+  var Binding_GenericBinding = GenericBinding;
+
+  function handleBlur() {
+  	var value;
+
+  	handleDomEvent.call(this);
+
+  	value = this._ractive.root.viewmodel.get(this._ractive.binding.keypath);
+  	this.value = value == undefined ? "" : value;
+  }
+
+  function handleDelay() {
+  	var binding = this._ractive.binding,
+  	    el = this;
+
+  	if (!!binding._timeout) clearTimeout(binding._timeout);
+
+  	binding._timeout = setTimeout(function () {
+  		if (binding.rendered) handleDomEvent.call(el);
+  		binding._timeout = undefined;
+  	}, binding.element.lazy);
+  }
 
   var NumericBinding = Binding_GenericBinding.extend({
   	getInitialValue: function () {
@@ -16578,7 +16591,7 @@
   	magic: { value: environment__magic },
 
   	// version
-  	VERSION: { value: "0.7.3" },
+  	VERSION: { value: "0.7.2" },
 
   	// Plugins
   	adaptors: { writable: true, value: {} },
