@@ -2,6 +2,8 @@ Ractive.components['ux-accordion'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-accordion'],
 
+	isolated: true,
+
 	computed: {
 		guid: function () {
 			return this._guid;
@@ -31,9 +33,6 @@ Ractive.components['ux-accordion'] = Ractive.extend({
 
 			});
 
-			// Stop bubbling.
-			return false;
-
 		});
 
 	}
@@ -43,6 +42,8 @@ Ractive.components['ux-accordion'] = Ractive.extend({
 Ractive.components['ux-accordionitem'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-accordionitem'],
+
+	isolated: true,
 
 	computed: {
 		guid: function () {
@@ -94,6 +95,7 @@ Ractive.components['ux-accordionitem'] = Ractive.extend({
 
 Ractive.components['ux-anchor'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-anchor'],
+	isolated: true,
 	computed: {
 		guid: function () {
 			return this._guid;
@@ -103,12 +105,10 @@ Ractive.components['ux-anchor'] = Ractive.extend({
 
 Ractive.components['ux-button'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-button'],
+	isolated: true,
 	clickHandler: function () {
 
 		// if a click event is specified propagate the click event
-
-		console.log('Button event');
-
 		if (this.get('onclick')) {
 			console.log('Firing event');
 			this.fire(this.get('onclick'), this);
@@ -120,11 +120,13 @@ Ractive.components['ux-button'] = Ractive.extend({
 });
 
 Ractive.components['ux-col'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-col']
+	template: Ractive.defaults.templates['ux-col'],
+	isolated: true
 });
 
 Ractive.components['ux-content'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-content'],
+	isolated: true,
 	computed: {
 		guid: function () {
 			return this._guid;
@@ -133,7 +135,8 @@ Ractive.components['ux-content'] = Ractive.extend({
 });
 
 Ractive.components['ux-header'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-header']
+	template: Ractive.defaults.templates['ux-header'],
+	isolated: true
 });
 
 Ractive.components['ux-iconbar'] = Ractive.extend({
@@ -154,6 +157,8 @@ Ractive.components['ux-iconbar'] = Ractive.extend({
 	},
 
 	template: Ractive.defaults.templates['ux-iconbar'],
+
+	isolated: true,
 
 	data: {
 
@@ -202,6 +207,8 @@ Ractive.components['ux-iconbaritem'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-iconbaritem'],
 
+	isolated: true,
+
 	computed: {
 		guid: function () {
 			return this._guid;
@@ -211,12 +218,15 @@ Ractive.components['ux-iconbaritem'] = Ractive.extend({
 });
 
 Ractive.components['ux-li'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-li']
+	template: Ractive.defaults.templates['ux-li'],
+	isolated: true
 });
 
 Ractive.components['ux-off-canvas'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-off-canvas'],
+
+	isolated: true,
 
 	data: function () {
 		return {
@@ -258,12 +268,15 @@ Ractive.components['ux-off-canvas'] = Ractive.extend({
 });
 
 Ractive.components['ux-off-canvas-list'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-off-canvas-list']
+	template: Ractive.defaults.templates['ux-off-canvas-list'],
+	isolated: true
 });
 
 Ractive.components['ux-orbit'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-orbit'],
+
+	isolated: true,
 
 	data: {
 		currentPage: 1,
@@ -306,11 +319,13 @@ Ractive.components['ux-orbit'] = Ractive.extend({
 });
 
 Ractive.components['ux-panel'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-panel']
+	template: Ractive.defaults.templates['ux-panel'],
+	isolated: true
 });
 
 Ractive.components['ux-pricingtable'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-pricingtable'],
+	isolated: true,
 	oninit: function () {
 
 		this.on('buyNow', function (syntheticEvent) {
@@ -329,6 +344,7 @@ Ractive.components['ux-pricingtable'] = Ractive.extend({
 
 Ractive.components['ux-progress'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-progress'],
+	isolated: true,
 	computed: {
 		meterStyle: function () {
 			return 'width: ' + (this.get('value') || '0') + '%';
@@ -337,24 +353,20 @@ Ractive.components['ux-progress'] = Ractive.extend({
 });
 
 Ractive.components['ux-row'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-row']
+	template: Ractive.defaults.templates['ux-row'],
+	isolated: true
 });
 
 Ractive.components['ux-sidenav'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-sidenav']
+	template: Ractive.defaults.templates['ux-sidenav'],
+	isolated: true
 });
 
 Ractive.components['ux-tabarea'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-tabarea'],
 
-	data: {
-		tabPaneDataModel: function (item) {
-			return {
-				content: item.content
-			};
-		}
-	},
+	isolated: true,
 
 	oninit: function () {
 
@@ -398,6 +410,7 @@ Ractive.components['ux-tablink'] = Ractive.extend({
 
 Ractive.components['ux-tablinks'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-tablinks'],
+	isolated: true,
 	oninit: function () {
 
 		// Defensive code for isomorphic execution.
@@ -447,25 +460,20 @@ Ractive.components['ux-tabpane'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-tabpane'],
 
-	onconfig: function () {
-		var datamodel = this.get('datamodel');
-		if (datamodel) {
-			// For datamodel driven components, the tab content can be html containing more ux components.
-			// Therefore, we have to evaluate this, so we do that by injecting a partial here.
-			// See http://docs.ractivejs.org/latest/partials#updating
-			this.partials.dynamicContent = Ractive.parse(datamodel.content);
-		}
-	}
+	isolated: true
 
 });
 
 Ractive.components['ux-tabpanes'] = Ractive.extend({
-	template: Ractive.defaults.templates['ux-tabpanes']
+	template: Ractive.defaults.templates['ux-tabpanes'],
+	isolated: true
 });
 
 Ractive.components['ux-top-bar'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-top-bar'],
+
+	isolated: true,
 
 	oninit: function () {
 
@@ -508,6 +516,7 @@ Ractive.components['ux-top-bar'] = Ractive.extend({
 
 Ractive.components['ux-top-bar-items'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-top-bar-items'],
+	isolated: true,
 	data: {
 		getTopBarItemCssClass: function (item) {
 			var classes = [];
