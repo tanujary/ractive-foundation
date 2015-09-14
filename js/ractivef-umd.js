@@ -1,6 +1,6 @@
 /**
  * ractive-foundation - Ractive components for Foundation 5
- * @version 0.2.0
+ * @version 0.2.1
  * @link https://github.com/ractive-foundation/ractive-foundation
  * @license MIT
  */
@@ -278,7 +278,12 @@ Ractive.components['ux-content'] = Ractive.extend({
 
 Ractive.components['ux-header'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-header'],
-	isolated: true
+	isolated: true,
+	data: function () {
+		return {
+			level: 1
+		};
+	}
 });
 
 Ractive.components['ux-iconbar'] = Ractive.extend({
