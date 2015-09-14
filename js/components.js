@@ -218,6 +218,7 @@ Ractive.components['ux-iconbaritem'] = Ractive.extend({
 });
 
 Ractive.components['ux-label'] = Ractive.extend({
+	isolated: true,
 	template: Ractive.defaults.templates['ux-label']
 });
 
