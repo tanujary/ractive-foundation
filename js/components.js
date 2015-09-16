@@ -1,44 +1,3 @@
-Ractive.components['ux-accordion'] = Ractive.extend({
-
-	template: Ractive.defaults.templates['ux-accordion'],
-
-	isolated: true,
-
-	computed: {
-		guid: function () {
-			return this._guid;
-		}
-	},
-
-	oninit: function () {
-
-		this.set('componentItems', this.findAllChildComponents('ux-accordionitem'));
-
-		this.on('*.changeAccordion', function (srcItem) {
-
-			_.each(this.get('componentItems'), function (component) {
-
-				// Is this the item the user clicked on?
-				if (component._guid === srcItem._guid) {
-
-					// Support open and close behaviours with repeated clicking by User.
-					component.toggle('active');
-
-				} else {
-
-					// Not where the User clicked, so close it (if open).
-					component.set('active', false);
-
-				}
-
-			});
-
-		});
-
-	}
-
-});
-
 Ractive.components['ux-accordionitem'] = Ractive.extend({
 
 	template: Ractive.defaults.templates['ux-accordionitem'],
@@ -93,6 +52,15 @@ Ractive.components['ux-accordionitem'] = Ractive.extend({
 
 });
 
+Ractive.components['ux-alert'] = Ractive.extend({
+	template: Ractive.defaults.templates['ux-alert'],
+	oninit: function (options) {
+		this.on('closeClicked', function() {
+			this.teardown();
+			return false;
+		});
+	}
+});
 Ractive.components['ux-anchor'] = Ractive.extend({
 	template: Ractive.defaults.templates['ux-anchor'],
 	isolated: true,
@@ -543,4 +511,45 @@ Ractive.components['ux-top-bar-items'] = Ractive.extend({
 			return classes.join(' ');
 		}
 	}
+});
+
+Ractive.components['ux-accordion'] = Ractive.extend({
+
+	template: Ractive.defaults.templates['ux-accordion'],
+
+	isolated: true,
+
+	computed: {
+		guid: function () {
+			return this._guid;
+		}
+	},
+
+	oninit: function () {
+
+		this.set('componentItems', this.findAllChildComponents('ux-accordionitem'));
+
+		this.on('*.changeAccordion', function (srcItem) {
+
+			_.each(this.get('componentItems'), function (component) {
+
+				// Is this the item the user clicked on?
+				if (component._guid === srcItem._guid) {
+
+					// Support open and close behaviours with repeated clicking by User.
+					component.toggle('active');
+
+				} else {
+
+					// Not where the User clicked, so close it (if open).
+					component.set('active', false);
+
+				}
+
+			});
+
+		});
+
+	}
+
 });
